@@ -1,0 +1,18 @@
+module Workarea
+  decorate Storefront::Checkout::PaymentViewModel, with: :paypal do
+    def paypal?
+      payment.paypal?
+    end
+
+    def using_new_card?
+      super && !paypal?
+    end
+
+    def credit_cards
+      super.map do |card|
+        card.options[:paypal] = paypal?
+        card
+      end
+    end
+  end
+end

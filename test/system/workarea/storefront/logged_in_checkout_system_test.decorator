@@ -1,0 +1,9 @@
+require 'test_helper'
+
+module Workarea
+  decorate Storefront::LoggedInCheckoutSystemTest, with: :paypal do
+    def test_paypal_option_in_checkout
+      assert(page.has_css?('#payment_paypal'))
+    end
+  end
+end

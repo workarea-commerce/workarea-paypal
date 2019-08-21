@@ -1,0 +1,13 @@
+module Workarea
+  decorate Storefront::Checkout::PlaceOrderController, with: 'paypal' do
+    def place_order
+      if params[:payment] == 'paypal' && !current_checkout.payment.paypal? && params[:from_checkout].present?
+        redirect_to start_paypal_path(from_checkout: 'from_checkout') and return
+      elsif params[:payment] == 'paypal' && !current_checkout.payment.paypal?
+        redirect_to start_paypal_path and return
+      else
+        super
+      end
+    end
+  end
+end

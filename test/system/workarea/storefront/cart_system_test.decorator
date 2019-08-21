@@ -1,0 +1,14 @@
+require 'test_helper'
+
+module Workarea
+  decorate Storefront::CartSystemTest, with: :paypal do
+    def test_paypal_option_in_cart
+      visit storefront.product_path(create_product)
+      click_button 'add_to_cart'
+      assert(page.has_content?(t('workarea.storefront.flash_messages.cart_item_added')))
+
+      visit storefront.cart_path
+      assert(first('.cart__checkout-action--paypal a')['href'].include?(storefront.start_paypal_path))
+    end
+  end
+end

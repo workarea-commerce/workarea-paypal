@@ -1,0 +1,7 @@
+module Workarea
+  decorate Storefront::CreditCardViewModel, with: :paypal do
+    def selected?
+      super && !options[:paypal]
+    end
+  end
+end

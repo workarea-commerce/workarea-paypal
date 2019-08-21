@@ -1,0 +1,32 @@
+require 'test_helper'
+
+module Workarea
+  decorate Search::Admin::OrderTest, with: :paypal do
+    def test_search_text_includes_paypal
+      order = Workarea::Order.new(created_at: Time.now)
+
+      Payment.create!(
+        id: order.id,
+        address: {
+          first_name: 'Ben',
+          last_name: 'Crouse',
+          street: '22 S. 3rd St.',
+          city: 'Philadelphia',
+          region: 'PA',
+          postal_code: '19106',
+          country: 'US',
+          phone_number: '2159251800'
+        },
+        paypal: {
+          token: '1234',
+          payer_id: '1234',
+          details: {}
+        }
+      )
+
+      result = Search::Admin::Order.new(order).search_text
+
+      assert_includes(result, 'PayPal')
+    end
+  end
+end

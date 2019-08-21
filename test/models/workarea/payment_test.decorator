@@ -1,0 +1,34 @@
+require 'test_helper'
+
+module Workarea
+  decorate PaymentTest, with: :paypal do
+    def test_set_paypal_creates_paypal_tender
+      payment.set_paypal(
+        token: 'token',
+        payer_id: 'payer_id',
+        details: { 'foo' => 'bar' }
+      )
+
+      assert_equal('token', payment.paypal.token)
+      assert_equal('payer_id', payment.paypal.payer_id)
+      assert_equal({ 'foo' => 'bar' }, payment.paypal.details)
+    end
+
+    def test_set_credit_card_removes_paypal_tender
+      payment.set_paypal(
+        token: 'token',
+        payer_id: 'payer_id',
+        details: { 'foo' => 'bar' }
+      )
+
+      payment.set_credit_card({})
+      assert(payment.paypal.blank?)
+    end
+
+    private
+
+    def payment
+      @payment ||= Payment.create!
+    end
+  end
+end

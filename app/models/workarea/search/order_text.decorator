@@ -1,0 +1,8 @@
+module Workarea
+  decorate Search::OrderText, with: :paypal do
+    def payment_text
+      return 'PayPal' if payment.paypal?
+      super
+    end
+  end
+end

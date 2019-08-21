@@ -1,0 +1,11 @@
+require 'test_helper'
+
+module Workarea
+  decorate Storefront::PlaceOrderIntegrationTest, with: :paypal do
+    def test_place_order_redirects_to_paypal
+      patch storefront.checkout_place_order_path, params: { payment: 'paypal' }
+
+      assert_redirected_to(storefront.start_paypal_path)
+    end
+  end
+end

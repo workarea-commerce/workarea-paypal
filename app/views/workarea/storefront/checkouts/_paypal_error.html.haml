@@ -1,0 +1,6 @@
+- if step.paypal? && step.payment.paypal.errors.any?
+  - step.payment.paypal.errors.full_messages.each do |message|
+    .message.message--error
+      %p.message__type
+        %span.message__icon= t('workarea.storefront.messages.error')
+      %p.message__text= message

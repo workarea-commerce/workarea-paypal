@@ -1,0 +1,27 @@
+module Workarea
+  decorate Payment, with: :paypal do
+    decorated do
+      embeds_one :paypal, class_name: 'Workarea::Payment::Tender::Paypal'
+    end
+
+    def set_paypal(attrs)
+      build_paypal unless paypal
+      paypal.attributes = attrs.slice(
+        :token,
+        :payer_id,
+        :details
+      )
+
+      save
+    end
+
+    def paypal?
+      paypal.present?
+    end
+
+    def set_credit_card(*)
+      self.paypal = nil
+      super
+    end
+  end
+end

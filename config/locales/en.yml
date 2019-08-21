@@ -1,0 +1,19 @@
+---
+en:
+  workarea:
+    admin:
+      orders:
+        tenders:
+          paypal:
+            title: PayPal
+    storefront:
+      paypal:
+        address_error: We can not ship to this address. Please enter a new address.
+        check_out: Check Out with PayPal
+        checkout_submit_text: Continue to PayPal
+        on_continue: When you continue, you will be taken to the PayPal website.
+        paid_with_paypal: Paid with PayPal
+        payment_recieved: Thank You! We have received your information back from PayPal.
+          Please confirm that the shipping address and shipping method are correct,
+          then click on 'Place Order'.
+        paypal: PayPal
