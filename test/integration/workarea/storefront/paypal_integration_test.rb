@@ -148,36 +148,40 @@ module Workarea
       end
 
       def test_complete_redirects_to_address_if_paypal_address_invalid
-        details.params['PaymentDetails']['ShipToAddress'] = {
-          'Name' => 'Test User',
-          'Street1' => 'PO Box 123',
-          'Street2' => nil,
-          'CityName' => 'San Jose',
-          'StateOrProvince' => 'CA',
-          'Country' => 'US',
-          'CountryName' => 'United States',
-          'Phone' => '610-867-5309',
-          'PostalCode' => '95131',
-          'AddressID' => nil,
-          'AddressOwner' => 'PayPal',
-          'ExternalAddressID' => nil,
-          'AddressStatus' => 'Confirmed'
-        }
+        Workarea.with_config do |config|
+          config.allow_shipping_address_po_box = false
 
-        gateway.expects(:details_for).returns(details)
+          details.params['PaymentDetails']['ShipToAddress'] = {
+            'Name' => 'Test User',
+            'Street1' => 'PO Box 123',
+            'Street2' => nil,
+            'CityName' => 'San Jose',
+            'StateOrProvince' => 'CA',
+            'Country' => 'US',
+            'CountryName' => 'United States',
+            'Phone' => '610-867-5309',
+            'PostalCode' => '95131',
+            'AddressID' => nil,
+            'AddressOwner' => 'PayPal',
+            'ExternalAddressID' => nil,
+            'AddressStatus' => 'Confirmed'
+          }
 
-        product = create_product(variants: [{ sku: 'SKU', regular: 5 }])
+          gateway.expects(:details_for).returns(details)
 
-        post storefront.cart_items_path, params: {
-          product_id: product.id,
-          sku: product.skus.first,
-          quantity: 1
-        }
+          product = create_product(variants: [{ sku: 'SKU', regular: 5 }])
 
-        order = Order.first
+          post storefront.cart_items_path, params: {
+            product_id: product.id,
+            sku: product.skus.first,
+            quantity: 1
+          }
 
-        get storefront.complete_paypal_path(order_id: order.id)
-        assert_redirected_to(storefront.checkout_addresses_path)
+          order = Order.first
+
+          get storefront.complete_paypal_path(order_id: order.id)
+          assert_redirected_to(storefront.checkout_addresses_path)
+        end
       end
 
       private
