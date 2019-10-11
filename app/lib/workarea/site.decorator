@@ -1,0 +1,13 @@
+module Workarea
+  if Plugin.installed?(:multi_site)
+    decorate Site, with: :paypal do
+      class_methods do
+        def current=(site)
+          super.tap do
+            Paypal.auto_configure_gateway
+          end
+        end
+      end
+    end
+  end
+end
