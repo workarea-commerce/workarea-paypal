@@ -3,6 +3,8 @@ require 'test_helper'
 module Workarea
   if Plugin.installed?(:multi_site)
     class MultiSiteGatewayTest < TestCase
+      include MultiSite::TestCase
+      
       def test_switch_gateway_every_request
         site1 = Site.add_site do |config|
           config.site_name = 'Site 1'
