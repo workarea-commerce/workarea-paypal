@@ -1,3 +1,21 @@
+Workarea Paypal 2.0.9 (2019-10-30)
+--------------------------------------------------------------------------------
+
+*   Fix Integration Test Failure When PO Box Config Changes
+
+    When `config.allow_shipping_address_po_box` is set to `true`, an
+    integration test in the PayPal plugin failed due to the shipping step
+    raising an error since no shipping option is available for the address.
+    To ensure the test is configured correctly, it's now wrapped in a
+    `Workarea.with_config` block, with `config.allow_shipping_address_po_box`
+    set to `false`. This allows the test to ensure that the proper redirect
+    occurs when a shipping address coming back from PayPal is invalid.
+
+    PAYPAL-83
+    Tom Scott
+
+
+
 Workarea Paypal 2.0.8 (2019-08-21)
 --------------------------------------------------------------------------------
 
