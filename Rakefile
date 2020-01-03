@@ -42,10 +42,9 @@ task :release do
   Rake::Task['workarea:changelog'].execute
   system 'git add CHANGELOG.md'
   system 'git commit -m "Update CHANGELOG"'
-  system 'git push origin HEAD'
 
   system "git tag -a v#{Workarea::Paypal::VERSION} -m 'Tagging #{Workarea::Paypal::VERSION}'"
-  system 'git push --tags'
+  system 'git push origin HEAD --follow-tags'
 
   system 'gem build workarea-paypal.gemspec'
   system "gem push workarea-paypal-#{Workarea::Paypal::VERSION}.gem"
