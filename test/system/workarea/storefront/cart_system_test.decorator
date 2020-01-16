@@ -8,7 +8,7 @@ module Workarea
       assert(page.has_content?(t('workarea.storefront.flash_messages.cart_item_added')))
 
       visit storefront.cart_path
-      assert(first('.cart__checkout-action--paypal a')['href'].include?(storefront.start_paypal_path))
+      assert(page.has_selector?('#paypal-button-container', visible: false))
     end
   end
 end

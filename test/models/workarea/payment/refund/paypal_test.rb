@@ -4,64 +4,65 @@ module Workarea
   class Payment
     class Refund
       class PaypalTest < Workarea::TestCase
-        delegate :gateway, to: Workarea::Paypal
-
-        def authorization
-          @authorization ||= ActiveMerchant::Billing::BogusGateway::AUTHORIZATION
+        def payment
+          @payment ||= create_payment
         end
 
-        def payment
-          @payment ||=
+        def tender
+          @tender ||=
             begin
-              result = create_payment
-              result.set_paypal(token: '1234', payer_id: 'pid')
-              result
+              payment.build_paypal(paypal_id: '1234', payer_id: 'pid')
+              payment.paypal
             end
         end
 
-        def reference
-          @reference ||= Transaction.new(
+        def transaction
+          @transaction ||= tender.transactions.build(
+            action: 'authorize',
             amount: 5.to_m,
-            response: ActiveMerchant::Billing::Response.new(
-              true,
-              'Message',
-              'transaction_id' => authorization
+            reference: tender.build_transaction(
+              action: 'purchase',
+              amount: 5.to_m,
+              response: ActiveMerchant::Billing::Response.new(
+                true,
+                'PayPal capture succeeded',
+                id: 'CAPTURE_0001'
+              )
             )
           )
         end
 
-        def transaction
-          @transaction ||= payment.paypal.transactions.build(
-            amount: 5.to_m,
-            reference: reference
+        def stubbed_refund
+          @stubbed_refund ||= OpenStruct.new(
+            status_code: 201,
+            result: OpenStruct.new(
+              id: 'REFUND_0001',
+              status: 'COMPLETED',
+            )
           )
         end
 
-        def test_complete_raises_if_the_reference_transaction_is_blank
-          transaction.reference = nil
-          operation = Paypal.new(payment.paypal, transaction)
+        def test_complete_success
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).returns(stubbed_refund)
 
-          assert_raises(Payment::MissingReference) { operation.complete! }
-        end
-
-        def test_complete_refunds_on_the_credit_card_gateway
-          operation = Paypal.new(payment.paypal, transaction)
-
-          gateway
-            .expects(:refund)
-            .with(500, authorization, currency: 'USD')
-
-          operation.complete!
-        end
-
-        def test_complete_sets_the_response_on_the_transaction
-          operation = Paypal.new(payment.paypal, transaction)
+          operation = Paypal.new(tender, transaction)
           operation.complete!
 
-          assert_instance_of(
-            ActiveMerchant::Billing::Response,
-            transaction.response
-          )
+          assert(transaction.response.success?)
+          assert(transaction.response.message.present?)
+          assert_equal('CAPTURE_0001', transaction.response.params['capture_id'])
+        end
+
+        def test_complete_failure
+          stubbed_refund.status_code = 500
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).returns(stubbed_refund)
+
+          operation = Paypal.new(tender, transaction)
+          operation.complete!
+
+          refute(transaction.response.success?)
+          assert(transaction.response.message.present?)
+          assert(transaction.response.params.present?)
         end
       end
     end

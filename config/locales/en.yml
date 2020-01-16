@@ -1,4 +1,3 @@
----
 en:
   workarea:
     admin:
@@ -6,12 +5,21 @@ en:
         tenders:
           paypal:
             title: PayPal
+    payment:
+      paypal_capture: Paypal funding is pending capture and cannot be completed manually. Capture will be recorded after an update from PayPal.
+    paypal:
+      gateway:
+        http_error: "%{status} : PayPal request error, debug ID %{debug_id}"
     storefront:
       paypal:
-        address_error: We can not ship to this address. Please enter a new address.
         check_out: Check Out with PayPal
-        checkout_submit_text: Continue to PayPal
-        on_continue: When you continue, you will be taken to the PayPal website.
+        checkout_submit_text: Select a PayPal payment option to continue
+        checkout_review_text: Submit Payment and Review
+        errors:
+          order_incomplete: Your checkout is incomplete. Please review your shipping and billing information and try again.
+          place_order: You must complete your paypal transaction before submitting your order.
+          request_failed: There was a problem contacting PayPal. Please try again. If the problem persists, try a different payment method or contact customer support.
+        on_continue: Select a PayPal payment option.
         paid_with_paypal: Paid with PayPal
         payment_recieved: Thank You! We have received your information back from PayPal.
           Please confirm that the shipping address and shipping method are correct,

@@ -1,0 +1,403 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic RkFLRV9QQVlQQUxfQ0xJRU5UX0lEOkZBS0VfUEFZUEFMX0NMSUVOVF9TRUNS\nRVQ=
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '918'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:27 GMT
+      Paypal-Debug-Id:
+      - de5d164520a0c
+      X-Paypal-Token-Service:
+      - IAAS
+    body:
+      encoding: UTF-8
+      string: '{"scope":"https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/disputes/read-buyer
+        https://uri.paypal.com/services/payments/realtimepayment https://uri.paypal.com/services/disputes/update-seller
+        https://uri.paypal.com/services/payments/payment/authcapture openid https://uri.paypal.com/services/disputes/read-seller
+        https://uri.paypal.com/services/payments/refund https://api.paypal.com/v1/vault/credit-card
+        https://api.paypal.com/v1/payments/.* https://uri.paypal.com/payments/payouts
+        https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/subscriptions
+        https://uri.paypal.com/services/applications/webhooks","access_token":"A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32400,"nonce":"2020-02-06T16:42:27ZFy3NsNH79TYyASlMh7tVMXVNGFTLxcg9I-fKIo2HAew"}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:27 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/notifications/webhooks
+    body:
+      encoding: UTF-8
+      string: '{"url":"https://example.com/my-webhooks","event_types":[{"name":"PAYMENT.CAPTURE.COMPLETED"},{"name":"PAYMENT.CAPTURE.DENIED"}]}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '604'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:27 GMT
+      Paypal-Debug-Id:
+      - ee00e5e5c7d6
+    body:
+      encoding: UTF-8
+      string: '{"id":"20S04938V6225614R","url":"https://example.com/my-webhooks","event_types":[{"name":"PAYMENT.CAPTURE.COMPLETED","description":"A
+        payment capture completes."},{"name":"PAYMENT.CAPTURE.DENIED","description":"A
+        payment capture is denied."}],"links":[{"href":"https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R","rel":"update","method":"PATCH"},{"href":"https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R","rel":"delete","method":"DELETE"}]}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:28 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic QVpjT01OcmRTQTQzOE1ydXJTdl8zR0JNamZsSUxxTzNiUWFDX2xqV1dXREFsak9xU2QyN3NNRlJvRVdkX3pTUUM5LTMyQzZySUdneXBLZVk6RUh6WktCVWY2anJhdTYxd0pNQ1BmVUx2MU9iSThQR0pQaWx1dTM0cFN6QzhGcXhxd2F5Yk15dkVVbXFmQnVYT1hsaXhQU1dkakNiVmQzT2E=
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '918'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:27 GMT
+      Paypal-Debug-Id:
+      - fe5b94a3ae4e7
+      X-Paypal-Token-Service:
+      - IAAS
+    body:
+      encoding: UTF-8
+      string: '{"scope":"https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/disputes/read-buyer
+        https://uri.paypal.com/services/payments/realtimepayment https://uri.paypal.com/services/disputes/update-seller
+        https://uri.paypal.com/services/payments/payment/authcapture openid https://uri.paypal.com/services/disputes/read-seller
+        https://uri.paypal.com/services/payments/refund https://api.paypal.com/v1/vault/credit-card
+        https://api.paypal.com/v1/payments/.* https://uri.paypal.com/payments/payouts
+        https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/subscriptions
+        https://uri.paypal.com/services/applications/webhooks","access_token":"A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32399,"nonce":"2020-02-06T16:42:27ZFy3NsNH79TYyASlMh7tVMXVNGFTLxcg9I-fKIo2HAew"}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:28 GMT
+- request:
+    method: get
+    uri: https://api.sandbox.paypal.com/v1/notifications/webhooks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '657'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:28 GMT
+      Paypal-Debug-Id:
+      - 9966e2a1501d6
+    body:
+      encoding: UTF-8
+      string: '{"webhooks":[{"id":"20S04938V6225614R","url":"https://example.com/my-webhooks","event_types":[{"name":"PAYMENT.CAPTURE.COMPLETED","description":"A
+        payment capture completes.","status":"ENABLED"},{"name":"PAYMENT.CAPTURE.DENIED","description":"A
+        payment capture is denied.","status":"ENABLED"}],"links":[{"href":"https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R","rel":"update","method":"PATCH"},{"href":"https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R","rel":"delete","method":"DELETE"}]}]}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:29 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic QVpjT01OcmRTQTQzOE1ydXJTdl8zR0JNamZsSUxxTzNiUWFDX2xqV1dXREFsak9xU2QyN3NNRlJvRVdkX3pTUUM5LTMyQzZySUdneXBLZVk6RUh6WktCVWY2anJhdTYxd0pNQ1BmVUx2MU9iSThQR0pQaWx1dTM0cFN6QzhGcXhxd2F5Yk15dkVVbXFmQnVYT1hsaXhQU1dkakNiVmQzT2E=
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '918'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:28 GMT
+      Paypal-Debug-Id:
+      - 96b67c2dbc7ba
+      X-Paypal-Token-Service:
+      - IAAS
+    body:
+      encoding: UTF-8
+      string: '{"scope":"https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/disputes/read-buyer
+        https://uri.paypal.com/services/payments/realtimepayment https://uri.paypal.com/services/disputes/update-seller
+        https://uri.paypal.com/services/payments/payment/authcapture openid https://uri.paypal.com/services/disputes/read-seller
+        https://uri.paypal.com/services/payments/refund https://api.paypal.com/v1/vault/credit-card
+        https://api.paypal.com/v1/payments/.* https://uri.paypal.com/payments/payouts
+        https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/subscriptions
+        https://uri.paypal.com/services/applications/webhooks","access_token":"A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32398,"nonce":"2020-02-06T16:42:27ZFy3NsNH79TYyASlMh7tVMXVNGFTLxcg9I-fKIo2HAew"}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:30 GMT
+- request:
+    method: delete
+    uri: https://api.sandbox.paypal.com/v1/notifications/webhooks/20S04938V6225614R
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Date:
+      - Thu, 06 Feb 2020 16:42:29 GMT
+      Paypal-Debug-Id:
+      - e0e9f2216a9dc
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:30 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic QVpjT01OcmRTQTQzOE1ydXJTdl8zR0JNamZsSUxxTzNiUWFDX2xqV1dXREFsak9xU2QyN3NNRlJvRVdkX3pTUUM5LTMyQzZySUdneXBLZVk6RUh6WktCVWY2anJhdTYxd0pNQ1BmVUx2MU9iSThQR0pQaWx1dTM0cFN6QzhGcXhxd2F5Yk15dkVVbXFmQnVYT1hsaXhQU1dkakNiVmQzT2E=
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '918'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:30 GMT
+      Paypal-Debug-Id:
+      - e0e9f23ce8fb9
+      X-Paypal-Token-Service:
+      - IAAS
+    body:
+      encoding: UTF-8
+      string: '{"scope":"https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/disputes/read-buyer
+        https://uri.paypal.com/services/payments/realtimepayment https://uri.paypal.com/services/disputes/update-seller
+        https://uri.paypal.com/services/payments/payment/authcapture openid https://uri.paypal.com/services/disputes/read-seller
+        https://uri.paypal.com/services/payments/refund https://api.paypal.com/v1/vault/credit-card
+        https://api.paypal.com/v1/payments/.* https://uri.paypal.com/payments/payouts
+        https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/subscriptions
+        https://uri.paypal.com/services/applications/webhooks","access_token":"A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32396,"nonce":"2020-02-06T16:42:27ZFy3NsNH79TYyASlMh7tVMXVNGFTLxcg9I-fKIo2HAew"}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:31 GMT
+- request:
+    method: get
+    uri: https://api.sandbox.paypal.com/v1/notifications/webhooks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer A21AAFveIphmkPeQkxcAq1BS07DVrmJpoMOxMsZeCXmCwkbSkIp3O18l3JH-uHeCXYQJhmM1CZaMm8TyDepvU7KprlKuuiCyg
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.3
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.3p62-x86_64-darwin18;OpenSSL
+        1.0.2s  28 May 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '15'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 06 Feb 2020 16:42:30 GMT
+      Paypal-Debug-Id:
+      - bad1874a1a0b8
+    body:
+      encoding: UTF-8
+      string: '{"webhooks":[]}'
+    http_version:
+  recorded_at: Thu, 06 Feb 2020 16:42:31 GMT
+recorded_with: VCR 2.9.3

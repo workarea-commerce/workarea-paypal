@@ -4,9 +4,7 @@
 WORKAREA.registerModule('updateCheckoutSubmitText', (function () {
     'use strict';
 
-    var submitButtonText = function ($selectedPaymentMethod) {
-            var data = $selectedPaymentMethod.data('updateCheckoutSubmitText') || {};
-
+    var submitButtonText = function (data) {
             if (data.prevent) { return; }
 
             if (data.text) {
@@ -17,9 +15,16 @@ WORKAREA.registerModule('updateCheckoutSubmitText', (function () {
         },
 
         updateText = function($selectedPaymentMethod, $checkoutSubmit) {
-            var text = submitButtonText($selectedPaymentMethod);
+            var data = $selectedPaymentMethod.data('updateCheckoutSubmitText') || {},
+                text = submitButtonText(data);
 
             if (_.isEmpty(text)) {  return;  }
+
+            if (data.disabled && !data.prevent) {
+                $checkoutSubmit.attr('disabled', 'disabled');
+            } else {
+                $checkoutSubmit.removeAttr('disabled');
+            }
 
             $checkoutSubmit.text(text);
         },
@@ -55,6 +60,7 @@ WORKAREA.registerModule('updateCheckoutSubmitText', (function () {
         };
 
     return {
-        init: init
+        init: init,
+        updateText: updateText
     };
 }()));

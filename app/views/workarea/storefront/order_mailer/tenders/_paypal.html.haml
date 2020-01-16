@@ -1,3 +1,5 @@
-%p{ style: "margin: 0 0 6px; font: 13px/1.5 arial; color: #{@config.text_color};" }
-  = t('workarea.storefront.paypal.paid_with_paypal')
-  = number_to_currency tender.amount
+- if tender.direct_payment?
+  = render 'workarea/storefront/order_mailer/tenders/credit_card', tender: tender
+- else
+  %p
+    = "#{t('workarea.storefront.paypal.paid_with_paypal')}: #{number_to_currency tender.amount}"

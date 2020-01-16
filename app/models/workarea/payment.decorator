@@ -2,26 +2,40 @@ module Workarea
   decorate Payment, with: :paypal do
     decorated do
       embeds_one :paypal, class_name: 'Workarea::Payment::Tender::Paypal'
+      delegate :paypal_id, to: :paypal, allow_nil: true
     end
 
     def set_paypal(attrs)
       build_paypal unless paypal
       paypal.attributes = attrs.slice(
-        :token,
+        :paypal_id,
         :payer_id,
-        :details
+        :details,
+        :approved,
+        :direct_payment
       )
 
       save
     end
 
     def paypal?
-      paypal.present?
+      paypal.present? && paypal.approved?
     end
 
     def set_credit_card(*)
       self.paypal = nil
       super
+    end
+
+    def address
+      addr = super
+      return addr if !paypal? || addr&.valid?
+
+      Payment::NullAddress.new.tap { |na| na.reference = addr || build_address }
+    end
+
+    def real_address
+      method(:address).super_method.call
     end
   end
 end

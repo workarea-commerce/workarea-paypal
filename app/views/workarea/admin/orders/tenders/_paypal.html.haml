@@ -1,2 +1,5 @@
-= t("workarea.admin.orders.tenders.paypal.title")
-= number_to_currency tender.amount
+- if tender.direct_payment?
+  = render 'workarea/admin/orders/tenders/credit_card', tender: tender
+- else
+  = t("workarea.admin.orders.tenders.paypal.title")
+  = number_to_currency tender.amount
