@@ -1,0 +1,47 @@
+/**
+ * @namespace WORKAREA
+ */
+
+(function () {
+    'use strict';
+
+    /**
+     * @namespace WORKAREA.config
+     * @property {object} paypalButtons
+     * @property {object} paypalHostedFields
+     *
+     */
+
+    /**
+     *  See https://developer.paypal.com/docs/checkout/integration-features/customize-button/
+     *  for information on configuration options.
+     */
+    WORKAREA.config.paypalButtons = {
+        style: {
+            color: 'blue',
+            tagline: false,
+        }
+    };
+
+    /**
+     *  See https://developer.paypal.com/docs/limited-release/custom-card-fields/reference
+     *  for information on configuration options.
+     */
+    WORKAREA.config.paypalHostedFields = {
+        fields: {
+            number: {
+                selector: '#paypal-credit-card-number',
+                placeholder: 'Credit Card Number',
+            },
+            cvv: {
+                selector: '#paypal-cvv-field',
+                placeholder: 'CVV',
+            },
+            expirationDate: {
+                selector: '#paypal-expiration-field',
+                placeholder: 'MM/YYYY',
+            }
+        }
+    };
+
+})();

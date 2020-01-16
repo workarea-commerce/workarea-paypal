@@ -3,27 +3,21 @@ module Workarea
     module Authorize
       class Paypal
         include OperationImplementation
-        include CreditCardOperation
-
-        delegate :gateway, to: Workarea::Paypal
 
         def complete!
-          transaction.response = handle_active_merchant_errors do
-            gateway.authorize(
-              transaction.amount.cents,
-              token: tender.token,
-              payer_id: tender.payer_id,
-              currency: transaction.amount.currency
-            )
-          end
+          transaction.action = 'purchase'
+          transaction.response =
+            Workarea::Paypal.gateway.capture(tender.paypal_id)
         end
 
         def cancel!
           return unless transaction.success?
 
-          transaction.cancellation = handle_active_merchant_errors do
-            gateway.void(transaction.response.params['transaction_id'])
-          end
+          transaction.cancellation =
+            Workarea::Paypal.gateway.refund(
+              transaction.response.params['id'],
+              amount: transaction.amount
+            )
         end
       end
     end

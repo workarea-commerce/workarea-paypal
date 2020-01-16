@@ -1,2 +1,6 @@
-%p= t('workarea.storefront.paypal.paid_with_paypal')
-%p= number_to_currency(tender.amount)
+.data-card
+  .data-card__cell
+    %p.data-card__line
+      = t('workarea.storefront.paypal.paid_with_paypal')
+    %p.data-card__line
+      = number_to_currency(tender.amount)

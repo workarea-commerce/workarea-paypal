@@ -3,9 +3,10 @@ module Workarea
     include Storefront::CurrentCheckout
 
     before_action :validate_checkout
+    skip_before_action :verify_authenticity_token
 
-    def start
-      unless params[:from_checkout].present?
+    def create
+      unless current_order.checking_out?
         if logged_in?
           current_checkout.start_as(current_user)
         else
@@ -14,38 +15,30 @@ module Workarea
       end
 
       self.current_order = current_checkout.order
-      Pricing.perform(current_order, current_shipping)
+      Pricing.perform(current_order, current_shippings)
       check_inventory || (return)
 
-      setup = Paypal::Setup.new(
-        current_order,
-        current_user,
-        current_shipping,
-        self
-      )
+      response = Paypal::CreateOrder.new(current_checkout).perform
+      render json: { id: response.id }
 
-      redirect_to setup.redirect_url
+    rescue Paypal::Gateway::RequestError => e
+      Rails.logger.error(e)
+      flash[:error] = t('workarea.storefront.paypal.errors.request_failed')
+      head :internal_server_error
     end
 
-    def complete
-      self.current_order = Order.find(params[:order_id])
-      current_order.user_id = current_user.try(:id)
-      Pricing.perform(current_order, current_shipping)
+    def update
       check_inventory || (return)
 
-      Paypal::Update.new(
-        current_order,
-        current_checkout.payment,
-        current_shipping,
-        params[:token]
-      ).apply
+      Paypal::ApproveOrder.new(current_checkout, params[:id]).perform
 
-      unless current_checkout.complete?
-        flash[:error] = t('workarea.storefront.paypal.address_error')
-        redirect_to(checkout_addresses_path) && (return)
-      end
+      complete = current_checkout.complete?
+      flash[:error] = t('workarea.storefront.paypal.errors.order_incomplete') unless complete
 
-      redirect_to checkout_payment_path
+      render json: {
+        success: complete,
+        redirect_url: checkout_payment_path
+      }
     end
   end
 end

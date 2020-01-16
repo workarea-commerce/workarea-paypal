@@ -2,29 +2,30 @@ require 'workarea'
 require 'workarea/storefront'
 require 'workarea/admin'
 
+require 'paypal-checkout-sdk'
+require 'workarea/paypal/requests/generate_token'
+require 'workarea/paypal/gateway'
+
 module Workarea
   module Paypal
-    def self.gateway
-      Workarea.config.gateways.paypal
-    end
+    class << self
+      delegate :client, to: :gateway
 
-    def self.gateway=(gateway)
-      Workarea.config.gateways.paypal = gateway
-    end
-
-    def self.auto_configure_gateway
-      if Rails.application.secrets.paypal.present?
-        self.gateway = ActiveMerchant::Billing::PaypalExpressGateway.new(
-          Rails.application.secrets.paypal.deep_symbolize_keys
-        )
-      elsif gateway.blank?
-        self.gateway = ActiveMerchant::Billing::BogusGateway.new
+      def gateway
+        Workarea::Paypal::Gateway.new
       end
 
-      if ENV['HTTP_PROXY'].present? && gateway.present?
-        parsed = URI.parse(ENV['HTTP_PROXY'])
-        gateway.proxy_address = parsed.host
-        gateway.proxy_port = parsed.port
+      def transform_values(value)
+        case value
+        when OpenStruct
+          transform_values(value.to_h)
+        when Hash
+          value.transform_values(&method(:transform_values))
+        when Array
+          value.map(&method(:transform_values))
+        else
+          value
+        end
       end
     end
   end

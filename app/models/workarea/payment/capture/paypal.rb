@@ -3,31 +3,21 @@ module Workarea
     class Capture
       class Paypal
         include OperationImplementation
-        include CreditCardOperation
-
-        delegate :gateway, to: Workarea::Paypal
 
         def complete!
-          validate_reference!
-
-          transaction.response = handle_active_merchant_errors do
-            gateway.capture(
-              transaction.amount.cents,
-              transaction.reference.response.params['transaction_id'],
-              currency: transaction.amount.currency
-            )
-          end
+          # noop, authorization does the capture
+          transaction.response = ActiveMerchant::Billing::Response.new(
+            true,
+            I18n.t('workarea.payment.paypal_capture')
+          )
         end
 
         def cancel!
-          return unless transaction.success?
-
-          transaction.cancellation = handle_active_merchant_errors do
-            gateway.refund(
-              transaction.amount.cents,
-              transaction.response.params['transaction_id']
-            )
-          end
+          # noop, nothing to cancel
+          transaction.response = ActiveMerchant::Billing::Response.new(
+            true,
+            I18n.t('workarea.payment.paypal_capture')
+          )
         end
       end
     end

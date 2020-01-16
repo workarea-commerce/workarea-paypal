@@ -1,4 +1,4 @@
 Workarea::Storefront::Engine.routes.draw do
-  get 'paypal/start' => 'paypal#start', as: :start_paypal
-  get 'paypal/complete/:order_id' => 'paypal#complete', as: :complete_paypal
+  post 'paypal' => 'paypal#create'
+  put 'paypal/:id/approved' => 'paypal#update', as: :paypal_approved
 end

@@ -1,0 +1,43 @@
+<div class="grid grid--auto">
+    <div class="grid__cell">
+        <div class="property">
+            <label class="property__name" for="credit_card_number">
+                <span class="property__text">Card Number</span>
+            </label>
+            <div class="value">
+                <div class="text-box" id="paypal-credit-card-number" style="height: 30px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid__cell">
+        <div class="property">
+            <label class="property__name" for="credit_card_expiration">
+                <span>Expiration</span>
+            </label>
+            <div class="value">
+                <div class="text-box text-box--small" id="paypal-expiration-field" style="height: 30px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid__cell">
+        <div class="property">
+            <label class="property__name" for="credit_card_cvv">
+                <span class="property__text">Security Code</span>
+            </label>
+            <div class="value">
+                <div class="text-box text-box--small" id="paypal-cvv-field" style="height: 30px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% if (show_save_card) { %>
+<div class="button-property">
+    <div class="value">
+        <input type="checkbox" name="save_card" id="save_card" value="true" />
+    </div>
+    <label class="button-property__name" for="save_card">
+        <span>Save card for faster checkout</span>
+    </label>
+</div>
+<% } %>
