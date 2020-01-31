@@ -4,6 +4,9 @@ require 'workarea/admin'
 
 require 'paypal-checkout-sdk'
 require 'workarea/paypal/requests/generate_token'
+require 'workarea/paypal/requests/list_webhooks'
+require 'workarea/paypal/requests/create_webhook'
+require 'workarea/paypal/requests/delete_webhook'
 require 'workarea/paypal/gateway'
 
 module Workarea

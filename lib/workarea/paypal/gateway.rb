@@ -110,6 +110,35 @@ module Workarea
         end
       end
 
+      def create_webhook(url:, event_types:)
+        request = Workarea::Paypal::Requests::CreateWebhook.new
+        request.request_body(
+          url: url,
+          event_types: Array.wrap(event_types).map { |type| { name: type } }
+        )
+
+        response = handle_connection_errors { client.execute(request) }
+
+        throw_request_error(response) unless response.status_code == 201
+        response
+      end
+
+      def delete_webhook(webhook_id)
+        request = Workarea::Paypal::Requests::DeleteWebhook.new(webhook_id)
+        response = handle_connection_errors { client.execute(request) }
+
+        throw_request_error(response) unless response.status_code == 204
+        response
+      end
+
+      def list_webhooks
+        request = Workarea::Paypal::Requests::ListWebhooks.new
+        response = handle_connection_errors { client.execute(request) }
+
+        throw_request_error(response) unless response.status_code == 200
+        response
+      end
+
       def configured?
         client_id.present? && client_secret.present?
       end
@@ -128,19 +157,23 @@ module Workarea
           Workarea.config.paypal[:client_secret]
       end
 
+      def throw_request_error(error)
+        raise RequestError.new(
+          I18n.t(
+            'workarea.paypal.gateway.http_error',
+            status: error.status_code,
+            debug_id: error.headers['paypal-debug-id']
+          )
+        )
+      end
+
       def handle_connection_errors
         begin
           yield
-        rescue PayPalHttp::HttpError => e
-          Rails.logger.error(e.message)
-
-          raise RequestError.new(
-            I18n.t(
-              'workarea.paypal.gateway.http_error',
-              status: e.status_code,
-              debug_id: e.headers['paypal-debug-id']
-            )
-          )
+        rescue PayPalHttp::HttpError => error
+          Rails.logger.error(error.message)
+          Rails.logger.error(error.result)
+          throw_request_error(error)
         end
       end
 

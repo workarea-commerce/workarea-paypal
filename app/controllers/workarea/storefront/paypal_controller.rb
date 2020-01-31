@@ -40,5 +40,14 @@ module Workarea
         redirect_url: checkout_payment_path
       }
     end
+
+    def event
+      Paypal::HandleWebhookEvent.perform_async(
+        params[:event_type],
+        params[:resource]
+      )
+
+      head :ok
+    end
   end
 end

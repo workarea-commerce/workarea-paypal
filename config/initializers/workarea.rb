@@ -51,4 +51,12 @@ Workarea.configure do |config|
   # cards through PayPal. Contact PayPal directly for more information.
   #
   config.use_paypal_hosted_fields = false
+
+  # Events to register a webhook for when running the rake tasks to setup
+  # webhooks, workarea:payal:create_webhooks.
+  #
+  config.default_webhook_events = %w(
+    PAYMENT.CAPTURE.COMPLETED
+    PAYMENT.CAPTURE.DENIED
+  )
 end
