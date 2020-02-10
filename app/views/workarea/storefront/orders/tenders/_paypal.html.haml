@@ -1,2 +1,9 @@
-%p= t('workarea.storefront.paypal.paid_with_paypal')
-%p= number_to_currency(tender.amount)
+- if tender.direct_payment?
+  = render 'workarea/storefront/orders/tenders/credit_card', tender: tender
+- else
+  .data-card
+    .data-card__cell
+      %p.data-card__line
+        = t('workarea.storefront.paypal.paid_with_paypal')
+      %p.data-card__line
+        = number_to_currency(tender.amount)

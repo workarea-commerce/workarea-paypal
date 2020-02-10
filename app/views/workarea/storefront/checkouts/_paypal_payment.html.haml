@@ -1,12 +1,21 @@
-.checkout-payment__primary-method{ class: ('checkout-payment__primary-method--selected' if @step.paypal?) }
+- if current_user.present? || Workarea.config.use_paypal_hosted_fields
+  - set_paypal_client_token
+
+- if Workarea.config.use_paypal_hosted_fields
+  %div{ data: { paypal_hosted_fields: { show_save_card: logged_in? }.to_json, updated_checkout_submit_text: { prevent: step.credit_card?, text: t('workarea.storefront.paypal.checkout_review_text') }.to_json } }
+
+.checkout-payment__primary-method.checkout-payment__primary-method--paypal{ class: ('checkout-payment__primary-method--selected' if @step.paypal?) }
   .button-property
-    = hidden_field_tag 'from_checkout', 'from_checkout'
-    .value= radio_button_tag 'payment', 'paypal', step.paypal?, data: { update_checkout_submit_text: { prevent: step.paypal?, text: t('workarea.storefront.paypal.checkout_submit_text') }.to_json }
+    .value= radio_button_tag 'payment', 'paypal', step.paypal?, data: { update_checkout_submit_text: { prevent: step.paypal?, disabled: true, text: t('workarea.storefront.paypal.checkout_submit_text') }.to_json }
     = label_tag 'payment[paypal]', nil, class: 'button-property__name' do
       %span.button-property__text= t('workarea.storefront.paypal.paypal')
   %p.checkout-payment__primary-method-description
-    = inline_svg('workarea/admin/payment_icons/paypal.svg', class: 'payment-icon', title: 'PayPal')
     - if @step.paypal?
       %span= t('workarea.storefront.paypal.payment_recieved')
     - else
       %span= t('workarea.storefront.paypal.on_continue')
+  - unless @step.paypal?
+    .checkout-payment__primary-method-edit
+      .grid
+        .grid__cell.grid__cell--50-at-medium
+          #paypal-button-container.cart__checkout-action.cart__checkout-action--paypal

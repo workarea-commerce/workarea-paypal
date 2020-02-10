@@ -4,21 +4,14 @@ module Workarea
   class Payment
     module Authorize
       class PaypalTest < Workarea::TestCase
-        delegate :gateway, to: Workarea::Paypal
-
         def payment
           @payment ||= create_payment
-        end
-
-        def authorization
-          @authorization ||= ActiveMerchant::Billing::BogusGateway::AUTHORIZATION
         end
 
         def tender
           @tender ||=
             begin
-              payment.set_address(first_name: 'Ben', last_name: 'Crouse')
-              payment.build_paypal(token: '1234', payer_id: 'pid')
+              payment.build_paypal(paypal_id: '1234', payer_id: 'pid')
               payment.paypal
             end
         end
@@ -30,63 +23,81 @@ module Workarea
           )
         end
 
-        def test_complete_authorizes_on_the_paypal_gateway
+        def stubbed_capture
+          @stubbed_capture ||= OpenStruct.new(
+            status_code: 201,
+            result: PayPalHttp::HttpClient.new(nil)._parse_values(
+              purchase_units: [
+                {
+                  payments: {
+                    captures: [{ id: 'CAPTURE_0001', status: 'COMPLETED' }]
+                  }
+                }
+              ]
+            )
+          )
+        end
+
+        def stubbed_refund
+          @stubbed_refund ||= OpenStruct.new(
+            status_code: 201,
+            result: OpenStruct.new(
+              id: 'REFUND_0001',
+              status: 'COMPLETED',
+            )
+          )
+        end
+
+        def test_complete_success
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).returns(stubbed_capture)
+
           operation = Paypal.new(tender, transaction)
-
-          gateway.expects(:authorize)
-
           operation.complete!
+
+          assert_equal('purchase', transaction.action)
+          assert(transaction.response.success?)
+          assert(transaction.response.message.present?)
+          assert(transaction.response.params.present?)
+
+          PayPal::PayPalHttpClient.any_instance.unstub
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).returns(stubbed_refund)
+
+          operation.cancel!
+          assert(transaction.cancellation.success?)
+          assert(transaction.cancellation.message.present?)
+          assert_equal('CAPTURE_0001', transaction.cancellation.params['capture_id'])
         end
 
-        def test_complete_sets_the_response_on_the_transaction
+        def test_complete_success_but_pending
+          stubbed_capture.result.purchase_units.first.payments.captures.first.status = 'PENDING'
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).returns(stubbed_capture)
+
           operation = Paypal.new(tender, transaction)
           operation.complete!
 
-          assert_instance_of(
-            ActiveMerchant::Billing::Response,
-            transaction.response
-          )
+          assert_equal('authorize', transaction.action)
+          assert(transaction.response.success?)
+          assert(transaction.response.message.present?)
+          assert(transaction.response.params.present?)
         end
 
-        def test_cancel_does_nothing_if_the_transaction_was_a_failure
-          transaction.success = false
-          operation = Paypal.new(tender, transaction)
-
-          operation.gateway.expects(:void).never
-          operation.cancel!
-        end
-
-        def test_cancel_voids_with_the_authorization_from_the_transaction
-          transaction.response = ActiveMerchant::Billing::Response.new(
-            true,
-            'Message',
-            'transaction_id' => authorization
-          )
+        def test_complete_failure
+          stubbed_capture.status_code = 500
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).returns(stubbed_capture)
 
           operation = Paypal.new(tender, transaction)
+          operation.complete!
 
-          operation
-            .gateway
-            .expects(:void)
-            .with(authorization)
+          assert_equal('purchase', transaction.action)
+          refute(transaction.response.success?)
+          assert(transaction.response.message.present?)
+          assert(transaction.response.params.present?)
+
+          PayPal::PayPalHttpClient.any_instance.unstub
+          PayPal::PayPalHttpClient.any_instance.expects(:execute).never
 
           operation.cancel!
-        end
-
-        def test_cancel_sets_cancellation_params_on_the_transaction
-          transaction.response = ActiveMerchant::Billing::Response.new(
-            true,
-            'Message',
-            'transaction_id' => authorization
-          )
-
-          operation = Paypal.new(tender, transaction)
-          operation.cancel!
-
-          assert_instance_of(
-            ActiveMerchant::Billing::Response,
-            transaction.cancellation
-          )
+          assert_nil(transaction.cancellation)
         end
       end
     end

@@ -3,18 +3,15 @@ module Workarea
     class Refund
       class Paypal
         include OperationImplementation
-        include CreditCardOperation
 
         def complete!
           validate_reference!
 
-          transaction.response = handle_active_merchant_errors do
+          transaction.response =
             Workarea::Paypal.gateway.refund(
-              transaction.amount.cents,
-              transaction.reference.response.params['transaction_id'],
-              currency: transaction.amount.currency
+              transaction.reference.response.params['id'],
+              amount: transaction.amount
             )
-          end
         end
 
         def cancel!

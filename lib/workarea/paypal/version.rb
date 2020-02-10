@@ -1,5 +1,5 @@
 module Workarea
   module Paypal
-    VERSION = '2.0.9'.freeze
+    VERSION = '3.0.0.pre'.freeze
   end
 end
