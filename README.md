@@ -36,7 +36,7 @@ Account Setup
 
 To begin using PayPal on your site, you will need to have a PayPal merchant account. For development, you can create an account on [developer.paypal.com](htttps://developer.paypal.com). From there you can create a sandbox REST API app, and use those credentials for any non-live environments.
 
-Once you have a REST API application in your paypal sandbox, you must add the client ID and secret to your Workarea application. This can be done through admin configuration, environment variables, rails credentials, or hard-coded Workarea configuration.
+Once you have a REST API application in your PayPal sandbox, you must add the client ID and secret to your Workarea application. This can be done through admin configuration, environment variables, Rails credentials, or hard-coded Workarea configuration.
 
 ### Admin configuration
 
