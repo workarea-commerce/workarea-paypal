@@ -15,6 +15,13 @@ module Workarea
         PayPal::PayPalHttpClient.new(environment)
       end
 
+      def send_request(request)
+        # Do not change this
+        request.headers["PayPal-Partner-Attribution-Id"] = 'Workarea_SP'
+
+        client.execute(request)
+      end
+
       # This gets a token required to render hosted fields. Not used for
       # smart payment buttons.
       def generate_token(user: nil)
@@ -22,23 +29,20 @@ module Workarea
         id = user&.id.to_s.last(22) # length limit
         request.request_body(customer_id: id) if user.present?
 
-        handle_connection_errors { client.execute(request) }
+        handle_connection_errors { send_request(request) }
       end
 
       def get_order(order_id)
         request = PayPalCheckoutSdk::Orders::OrdersGetRequest.new(order_id)
-        handle_connection_errors { client.execute(request) }
+        handle_connection_errors { send_request(request) }
       end
 
       def create_order(body:)
         request = PayPalCheckoutSdk::Orders::OrdersCreateRequest.new
         request.request_body(body)
 
-        # Do not change this
-        request.headers["PayPal-Partner-Attribution-Id"] = 'Workarea_SP'
-
         handle_connection_errors do
-          response = client.execute(request)
+          response = send_request(request)
           response.result
         end
       end
@@ -48,7 +52,7 @@ module Workarea
         request.request_body(body)
 
         handle_connection_errors do
-          response = client.execute(request)
+          response = send_request(request)
           response.result
         end
       end
@@ -58,7 +62,7 @@ module Workarea
         request.prefer("return=representation")
 
         handle_transaction_errors do
-          response = client.execute(request)
+          response = send_request(request)
           result = response.result
           capture = result&.purchase_units&.first&.payments&.captures&.last
           success = response.status_code == 201 && capture&.status != 'DECLINED'
@@ -88,7 +92,7 @@ module Workarea
         end
 
         handle_transaction_errors do
-          response = client.execute(request)
+          response = send_request(request)
           refund = response.result
           success = response.status_code == 201 && refund.status != 'CANCELLED'
 
@@ -113,7 +117,7 @@ module Workarea
           event_types: Array.wrap(event_types).map { |type| { name: type } }
         )
 
-        response = handle_connection_errors { client.execute(request) }
+        response = handle_connection_errors { send_request(request) }
 
         throw_request_error(response) unless response.status_code == 201
         response
@@ -121,7 +125,7 @@ module Workarea
 
       def delete_webhook(webhook_id)
         request = Workarea::Paypal::Requests::DeleteWebhook.new(webhook_id)
-        response = handle_connection_errors { client.execute(request) }
+        response = handle_connection_errors { send_request(request) }
 
         throw_request_error(response) unless response.status_code == 204
         response
@@ -129,7 +133,7 @@ module Workarea
 
       def list_webhooks
         request = Workarea::Paypal::Requests::ListWebhooks.new
-        response = handle_connection_errors { client.execute(request) }
+        response = handle_connection_errors { send_request(request) }
 
         throw_request_error(response) unless response.status_code == 200
         response

@@ -1,6 +1,10 @@
 module Workarea
   class Payment
     class NullAddress
+      class NullCountry < OpenStruct
+        def to_s; end
+      end
+
       include Mongoid::Document
 
       FIELDS = Workarea::Payment::Address.fields.keys.tap { |k| k.delete('_id') }
@@ -20,7 +24,7 @@ module Workarea
       end
 
       def country
-        OpenStruct.new
+        NullCountry.new
       end
 
       def falsey(*args)
