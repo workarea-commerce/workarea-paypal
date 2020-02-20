@@ -10,6 +10,7 @@ en:
     paypal:
       gateway:
         http_error: "%{status} : PayPal request error, debug ID %{debug_id}"
+        capture_error: Select a new payment option and try again.
     storefront:
       paypal:
         check_out: Check Out with PayPal
@@ -21,6 +22,7 @@ en:
           request_failed: There was a problem contacting PayPal. Please try again. If the problem persists, try a different payment method or contact customer support.
         on_continue: Select a PayPal payment option.
         paid_with_paypal: Paid with PayPal
+        payment_failed: Your submitted PayPal payment could not be completed. Select a new method and try again.
         payment_recieved: Thank You! We have received your information back from PayPal.
           Please confirm that the shipping address and shipping method are correct,
           then click on 'Place Order'.

@@ -61,6 +61,10 @@ module Workarea
         request = PayPalCheckoutSdk::Orders::OrdersCaptureRequest.new(order_id)
         request.prefer("return=representation")
 
+        if ENV['PAYPAL_MOCK_RESPONSE'].present? && Rails.env.in?(%w(test development))
+          request.headers['PayPal-Mock-Response'] = ENV['PAYPAL_MOCK_RESPONSE']
+        end
+
         handle_transaction_errors do
           response = send_request(request)
           result = response.result
@@ -183,7 +187,7 @@ module Workarea
         rescue PayPalHttp::HttpError => error
           ActiveMerchant::Billing::Response.new(
             false,
-            error.message,
+            I18n.t('workarea.paypal.gateway.capture_error'),
             status_code: error.status_code,
             debug_id: error.headers['paypal-debug-id']
           )
