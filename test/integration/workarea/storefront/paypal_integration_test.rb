@@ -12,10 +12,6 @@ module Workarea
         Paypal::ApproveOrder.any_instance.expects(:perform).returns(true)
       end
 
-      def order
-        @order ||= create_order
-      end
-
       def product
         @product ||= create_product(
           variants: [{ sku: 'SKU1', regular: 6.to_m, tax_code: '001' }]
@@ -63,13 +59,31 @@ module Workarea
       def test_create_success
         add_item_to_cart
 
-        Workarea::Pricing.expects(:perform)
         assert_paypal_create_order
 
         post storefront.paypal_path, xhr: true
 
         json = JSON.parse(response.body)
         assert(json['id'].present?)
+      end
+
+      def test_create_on_existing_paypal_order
+        add_item_to_cart
+
+        order = Order.carts.last
+        order.touch_checkout!
+
+        payment = Payment.find_or_initialize_by(id: order.id)
+        payment.build_paypal(paypal_id: '0987', approved: true)
+        payment.save!
+
+        Paypal::CreateOrder.any_instance.expects(:perform).never
+
+        post storefront.paypal_path, xhr: true
+
+        json = JSON.parse(response.body)
+        assert_equal('0987', json['id'])
+        refute(payment.reload.paypal.approved?)
       end
 
       def test_create_failure

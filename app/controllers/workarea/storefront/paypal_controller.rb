@@ -15,11 +15,15 @@ module Workarea
       end
 
       self.current_order = current_checkout.order
-      Pricing.perform(current_order, current_shippings)
       check_inventory || (return)
 
-      response = Paypal::CreateOrder.new(current_checkout).perform
-      render json: { id: response.id }
+      if current_checkout.payment.paypal?
+        current_checkout.payment.paypal.update!(approved: false)
+        render json: { id: current_checkout.payment.paypal_id }
+      else
+        response = Paypal::CreateOrder.new(current_checkout).perform
+        render json: { id: response.id }
+      end
 
     rescue Paypal::Gateway::RequestError => e
       Rails.logger.error(e)

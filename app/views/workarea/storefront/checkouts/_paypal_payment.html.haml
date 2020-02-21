@@ -4,17 +4,19 @@
 - if Workarea.config.use_paypal_hosted_fields
   %div{ data: { paypal_hosted_fields: { show_save_card: logged_in? }.to_json, updated_checkout_submit_text: { prevent: step.credit_card?, text: t('workarea.storefront.paypal.checkout_review_text') }.to_json } }
 
-.checkout-payment__primary-method.checkout-payment__primary-method--paypal{ class: ('checkout-payment__primary-method--selected' if @step.paypal?) }
+.checkout-payment__primary-method.checkout-payment__primary-method--paypal{ class: ('checkout-payment__primary-method--selected' if step.paypal?) }
   .button-property
     .value= radio_button_tag 'payment', 'paypal', step.paypal?, data: { update_checkout_submit_text: { prevent: step.paypal?, disabled: true, text: t('workarea.storefront.paypal.checkout_submit_text') }.to_json }
     = label_tag 'payment[paypal]', nil, class: 'button-property__name' do
       %span.button-property__text= t('workarea.storefront.paypal.paypal')
   %p.checkout-payment__primary-method-description
-    - if @step.paypal?
+    - if step.paypal? && step.payment.errors.none?
       %span= t('workarea.storefront.paypal.payment_recieved')
+    - elsif step.paypal? && step.payment.errors.present?
+      %span= t('workarea.storefront.paypal.payment_failed')
     - else
       %span= t('workarea.storefront.paypal.on_continue')
-  - unless @step.paypal?
+  - unless step.paypal? && step.payment.errors.none?
     .checkout-payment__primary-method-edit
       .grid
         .grid__cell.grid__cell--50-at-medium

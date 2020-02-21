@@ -8,6 +8,7 @@ module Workarea
       end
 
       def perform
+        Pricing.perform(order, shippings)
         Paypal.gateway.create_order(body: request_body)
       end
 
