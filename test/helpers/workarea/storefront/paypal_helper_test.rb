@@ -16,7 +16,7 @@ module Workarea
         assert_includes(result, 'debug=true')
         assert_includes(result, "client-id=#{Workarea::Paypal.gateway.client_id}")
         assert_includes(result, 'components=buttons')
-        assert_includes(result, 'data-partner-attribution-id="Workarea_SP"')
+        assert_includes(result, 'data-partner-attribution-id="Workarea_SP_PCP"')
         refute_includes(result, 'hosted-fields')
         refute_includes(result, 'data-client-token')
 

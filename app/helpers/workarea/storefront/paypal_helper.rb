@@ -28,7 +28,7 @@ module Workarea
         javascript_include_tag(
           "https://www.paypal.com/sdk/js?#{params.to_query}",
           data: {
-            partner_attribution_id: 'Workarea_SP', # Do not change this
+            partner_attribution_id: 'Workarea_SP_PCP', # Do not change this
             client_token: @paypal_client_token
           }.merge(data)
         )
