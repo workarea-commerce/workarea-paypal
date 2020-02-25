@@ -17,7 +17,7 @@ module Workarea
 
       def send_request(request)
         # Do not change this
-        request.headers["PayPal-Partner-Attribution-Id"] = 'Workarea_SP'
+        request.headers["PayPal-Partner-Attribution-Id"] = 'Workarea_SP_PCP'
 
         client.execute(request)
       end
