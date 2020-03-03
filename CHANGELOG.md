@@ -1,3 +1,28 @@
+Workarea Paypal 3.0.0 (2020-03-03)
+--------------------------------------------------------------------------------
+
+*   Improve handling of failed captures
+
+    PAYPAL-5
+    Matt Duffy
+
+*   Clean up NullAddress display, add partner id to all PayPal requests
+
+    PAYPAL-5
+    Matt Duffy
+
+*   Update README
+
+    PAYPAL-4
+    Matt Duffy
+
+*   Update PayPal integration for PayPal Commerce Platform API
+
+    PAYPAL-3
+    Matt Duffy
+
+
+
 Workarea Paypal 2.0.9 (2019-10-30)
 --------------------------------------------------------------------------------
 
