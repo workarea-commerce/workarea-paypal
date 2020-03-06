@@ -1,7 +1,7 @@
-Upgrading from v2.x to v3.0.0
+Upgrading This Gem from v2.x to v3.0.0
 ================================================================================
 
-As of v3.0, this plugin utilizes the [PayPal Commerce Platform](https://www.paypal.com/us/webapps/mpp/commerce-platform). By default this integrates PayPal's [Smart Payment Buttons](https://developer.paypal.com/docs/commerce-platform/payment/checkout/) into your Workarea Application to allow customers to use any payment method supported in their area to complete checkout on your storefront.
+As of this gem's v3.0 version, this plugin utilizes the [PayPal Commerce Platform](https://www.paypal.com/us/webapps/mpp/commerce-platform). By default this integrates PayPal's [Smart Payment Buttons](https://developer.paypal.com/docs/commerce-platform/payment/checkout/) into your Workarea Application to allow customers to use any payment method supported in their area to complete checkout on your storefront.
 
 Upgrading will require approximately the following steps:
 
