@@ -3,7 +3,12 @@ Workarea PayPal
 
 A Workarea Commerce plugin that adds support for PayPal payments. This plugin adds a new tender type in checkout, which allows users to pay for their items with PayPal.
 
-As of v3.0, this plugin utilizes the [PayPal Commerce Platform](https://www.paypal.com/us/webapps/mpp/commerce-platform). By default this integrates PayPal's [Smart Payment Buttons](https://developer.paypal.com/docs/commerce-platform/payment/checkout/) into your Workarea Application to allow customer's to use any payment method supported in their area to complete checkout on your storefront.
+As of v3.0, this plugin utilizes the [PayPal Commerce Platform](https://www.paypal.com/us/webapps/mpp/commerce-platform). By default this integrates PayPal's [Smart Payment Buttons](https://developer.paypal.com/docs/commerce-platform/payment/checkout/) into your Workarea Application to allow customers to use any payment method supported in their area to complete checkout on your storefront.
+
+Upgrading to v3.0.0
+--------------------------------------------------------------------------------
+
+See the [upgrade guide](UPGRADE.md) for information on upgrading from v2.x of this plugin.
 
 Getting Started
 --------------------------------------------------------------------------------
@@ -63,7 +68,7 @@ Then, add a PayPal section:
 
 ```yaml
 paypal:
-  client_Id: YOUR_CLIENT_ID
+  client_id: YOUR_CLIENT_ID
   client_secret: YOUR_CLIENT_SECRET
 ```
 
