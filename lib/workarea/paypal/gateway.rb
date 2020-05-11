@@ -90,7 +90,7 @@ module Workarea
           request.request_body(
             amount: {
               value: amount.to_s,
-              currency: amount.currency.iso_code
+              currency_code: amount.currency.iso_code
             }
           )
         end
