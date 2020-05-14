@@ -1,3 +1,19 @@
+Workarea Paypal 3.0.2 (2020-05-14)
+--------------------------------------------------------------------------------
+
+*   Fix wrong protocol when using SSL
+
+    Fixes #11
+
+    Ben Crouse
+
+*   Fix field name on #refund
+
+
+    Alejandro Babio
+
+
+
 Workarea Paypal 3.0.1 (2020-03-17)
 --------------------------------------------------------------------------------
 
