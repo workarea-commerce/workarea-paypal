@@ -17,7 +17,8 @@ namespace :workarea do
       puts 'Subscribing to PayPal webhook events...'
       Workarea::Paypal.gateway.create_webhook(
         url: Workarea::Storefront::Engine.routes.url_helpers.paypal_event_url(
-          host: Workarea.config.host
+          host: Workarea.config.host,
+          protocol: Rails.application.config.force_ssl ? 'https' : 'http'
         ),
         event_types: Workarea.config.default_webhook_events
       )
