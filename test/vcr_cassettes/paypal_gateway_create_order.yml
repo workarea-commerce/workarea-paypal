@@ -64,7 +64,7 @@ http_interactions:
       Content-Type:
       - application/json
       Paypal-Partner-Attribution-Id:
-      - Workarea_SP_PCP
+      - Workarea_SP
       Authorization:
       - Bearer A21AAEQe49FiVXiExO3v7exrXi-z5BAM4wSeASef6xs6RrkPBHK5Kj9oW3RVniFGVumUb7r0t3JsrQ9YgIb1t2dc5Wir9JX2Q
       Accept-Encoding:
