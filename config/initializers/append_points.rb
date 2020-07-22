@@ -25,6 +25,7 @@ Workarea::Plugin.append_javascripts(
 
 Workarea::Plugin.append_javascripts(
   'storefront.modules',
+  'workarea/storefront/paypal/modules/paypal',
   'workarea/storefront/paypal/modules/update_checkout_submit_text',
   'workarea/storefront/paypal/modules/paypal_buttons',
   'workarea/storefront/paypal/modules/paypal_hosted_fields'
