@@ -56,13 +56,14 @@ WORKAREA.registerModule('paypalButtons', (function () {
          * @name init
          * @memberof WORKAREA.paypalButtons
          */
-        init = function ($scope) {
-            var $buttonContainer = $('#paypal-button-container', $scope);
+        init = function($scope) {
+            WORKAREA.paypal.ready(function() {
+                var $buttonContainer = $('#paypal-button-container', $scope);
 
-            if (window.paypal === undefined) { return; }
-            if (_.isEmpty($buttonContainer)) { return; }
+                if (_.isEmpty($buttonContainer)) { return; }
 
-            setup($buttonContainer);
+                setup($buttonContainer);
+            });
         };
 
     return {

@@ -81,13 +81,14 @@ WORKAREA.registerModule('paypalHostedFields', (function () {
          * @memberof WORKAREA.paypalHostedFields
          */
         init = function ($scope) {
-            var $placeholder = $('[data-paypal-hosted-fields]', $scope);
+            WORKAREA.paypal.ready(function () {
+                var $placeholder = $('[data-paypal-hosted-fields]', $scope);
 
-            if (_.isEmpty($placeholder)) {  return;  }
-            if (window.paypal === undefined) { return; }
-            if (!paypal.HostedFields.isEligible()) { return; }
+                if (_.isEmpty($placeholder)) {  return;  }
+                if (!paypal.HostedFields.isEligible()) { return; }
 
-            setup($placeholder, $scope);
+                setup($placeholder, $scope);
+            });
         };
 
     return {
