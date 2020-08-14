@@ -1,3 +1,37 @@
+Workarea Paypal 3.0.5 (2020-08-14)
+--------------------------------------------------------------------------------
+
+*   Address Race Condition When Using PayPal's SDK
+
+    It's possible that our modules that use the PayPal SDK will be
+    initialized prior to `window.paypal` being available on the page, now
+    that the JS is loaded in asynchronously, causing unnecessary loss in
+    functionality. Additionally, there doesn't seem to be a way to bind to
+    any kind of event given off by the SDK on `window` that would allow us
+    to know whether the SDK is truly loaded or not. To address this, when
+    the `window.paypal` object is not available yet, and there's a
+    `<script>` tag on the page loading the PayPal SDK (indicating that we
+    are indeed expecting the SDK to be there), the PayPal modules will
+    re-try initializing every 5 seconds until `window.paypal` is available.
+
+    PAYPAL-7
+
+    Tom Scott
+
+*   Load JavaScript From PayPal Asynchronously
+
+    Using the `async` attribute in the `<script>` tag that loads PayPal's
+    JavaScript code, Workarea can now prevent it blocking the page in case
+    of a failure, and improve load time performance to boot.
+
+    PAYPAL-7
+
+    Fixes #10
+
+    Tom Scott
+
+
+
 Workarea Paypal 3.0.4 (2020-06-17)
 --------------------------------------------------------------------------------
 
