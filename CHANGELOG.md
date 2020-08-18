@@ -1,3 +1,19 @@
+Workarea Paypal 3.0.6 (2020-08-18)
+--------------------------------------------------------------------------------
+
+*   Fix Typo in PayPal Environment
+
+    The `Workarea.config.paypal_environment` setting is constantized in
+    order to load the correct class for that environment. A missing case
+    caused the constantization to error out in the gateway and cause 500
+    errors on production.
+
+    PAYPAL-9
+
+    Tom Scott
+
+
+
 Workarea Paypal 3.0.5 (2020-08-14)
 --------------------------------------------------------------------------------
 
