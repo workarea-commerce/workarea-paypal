@@ -10,7 +10,7 @@ Workarea.configure do |config|
   #
   config.paypal_environment =
     if Rails.env.production?
-      'Paypal::LiveEnvironment'
+      'PayPal::LiveEnvironment'
     else
       'PayPal::SandboxEnvironment'
     end
