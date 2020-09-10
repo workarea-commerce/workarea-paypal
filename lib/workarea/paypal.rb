@@ -1,6 +1,7 @@
 require 'workarea'
 require 'workarea/storefront'
 require 'workarea/admin'
+require 'workarea/paypal/ext/active_merchant/paypal_express_gateway'
 
 module Workarea
   module Paypal
@@ -15,9 +16,7 @@ module Workarea
     def self.auto_configure_gateway
       if Rails.application.secrets.paypal.present?
         self.gateway = ActiveMerchant::Billing::PaypalExpressGateway.new(
-          Rails.application.secrets.paypal.deep_symbolize_keys.merge(
-            button_source: 'Workarea_SP'
-          )
+          Rails.application.secrets.paypal.deep_symbolize_keys
         )
       elsif gateway.blank?
         self.gateway = ActiveMerchant::Billing::BogusGateway.new
