@@ -1,3 +1,14 @@
+Workarea Paypal 2.0.11 (2020-09-14)
+--------------------------------------------------------------------------------
+
+*   Monkey Patch BN Code Into Gateway
+
+    This prevents any kind of configuration issues disrupting the
+    Workarea->PayPal reporting flow.
+
+
+    Tom Scott
+
 Workarea Paypal 2.0.11 (2020-07-11)
 --------------------------------------------------------------------------------
 
